@@ -1,19 +1,18 @@
-EMR App - Production Flow and GraphQL Overview
-Overview
+# EMR App - Production Flow and GraphQL Overview
 
-This document explains the production flow of the EMR application and the structure of the GraphQL queries used to fetch and update appointment data.
+## Overview
+This document explains the production flow of the EMR (Electronic Medical Records) application and the structure of the GraphQL queries used to fetch and update appointment data.
 
-Production Flow
+## Production Flow
+The overall data flow in production follows this architecture:
 
-The overall data flow in production is as follows:
+**Frontend → AppSync → Lambda → Queue/Database → AppSync → Frontend**
 
-Frontend → AppSync → Lambda → Queue/Database → AppSync → Frontend
+## GraphQL Query Structure for `getAppointments`
+The `getAppointments` query retrieves appointment data efficiently with flexible filtering options.
 
-GraphQL Query Structure for getAppointments
-
-The getAppointments query is designed to retrieve appointment data efficiently with flexible filtering options.
-
-Example Query
+### Example Query
+```graphql
 query getAppointments($date: String, $status: String, $doctorId: ID, $search: String) {
   getAppointments(date: $date, status: $status, doctorId: $doctorId, search: $search) {
     id
@@ -27,47 +26,41 @@ query getAppointments($date: String, $status: String, $doctorId: ID, $search: St
     status
   }
 }
+```
 
-Features
+### Features
+- Supports dynamic filters (`date`, `status`, `doctorId`, `search`) for tailored results
+- Results sorted by date and time (upcoming appointments first)
+- Allows clients to request only necessary fields (optimizes data transfer)
+- Single backend endpoint serves multiple frontend roles (admin, doctor, patient)
+- Simplifies maintenance through unified API
 
-Supports dynamic filters such as date, status, doctorId, and search to return tailored results.
+## Usage of GraphQL and AppSync
+The backend uses GraphQL through AWS AppSync for real-time data synchronization.
 
-Results are sorted by date and time, showing upcoming appointments first.
-
-Allows clients to request only necessary fields, optimizing data transfer.
-
-Single backend endpoint serves different frontend roles (admin, doctor, patient), simplifying maintenance.
-
-Usage of GraphQL and AppSync
-
-The backend uses GraphQL through AppSync for real-time data synchronization.
-
-Example Mutation
+### Example Mutation
+```graphql
 mutation {
   updateAppointment(id: 1, status: "confirmed") {
     id
     status
   }
 }
+```
 
+**Real-time Benefits:** This mutation triggers updates pushed by AppSync to all subscribed clients (e.g., doctors), enabling real-time visibility of:
+- Appointment status changes
+- Patient bookings
+- Available time slots
 
-This mutation triggers updates pushed by AppSync to all subscribed clients (such as doctors), enabling real-time visibility of appointments, patient bookings, and available slots.
-
-Frontend Features
-
-Calendar view with appointment sorting by date.
-
-Ability to clear filters (e.g., date filter).
-
-Tabs for Upcoming and Past appointments.
-
-Filters by status and doctor (individually or combined).
-
-Search functionality for patient names.
-
-Status update buttons (e.g., Schedule → Complete).
-
-Availability checker to avoid booking conflicts during appointment scheduling.
+## Frontend Features
+- **Calendar View**: Displays appointments sorted by date
+- **Filter Management**: Ability to clear filters (e.g., date filter)
+- **Appointment Tabs**: Separate views for Upcoming and Past appointments
+- **Advanced Filtering**: Filter by status and doctor (individually or combined)
+- **Search Functionality**: Search by patient names
+- **Status Management**: Update buttons for appointment states (e.g., "Schedule" → "Complete")
+- **Conflict Prevention**: Availability checker prevents booking conflicts during scheduling
 
 
 
