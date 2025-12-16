@@ -1,4 +1,4 @@
-# EMR App - Production Flow and GraphQL Overview
+# EMR App
 
 ## Overview
 This document explains the production flow of the EMR (Electronic Medical Records) application and the structure of the GraphQL queries used to fetch and update appointment data.
