@@ -27,6 +27,31 @@ query getAppointments($date: String, $status: String, $doctorId: ID, $search: St
   }
 }
 ```
+``` python function for this
+@app.post("/appointments")
+def get_appointments(filter: Optional[Appointment_filter] = None):
+    
+    filtered_appointments = data
+    today = date.today()
+
+    if filter:
+        if filter.datee:
+            filtered_appointments = [appt for appt in filtered_appointments if appt["date"] == str(filter.datee)]
+        if filter.doctorName:
+            filtered_appointments = [appt for appt in filtered_appointments if appt["doctorName"] == filter.doctorName]
+        if filter.status:
+            filtered_appointments = [appt for appt in filtered_appointments if appt["status"] == filter.status]
+    
+    # Sort by date proximity (closest to today first), then by time
+    def sort_key(appt):
+        appt_date = datetime.strptime(appt["date"], "%Y-%m-%d").date()
+        days_diff = abs((appt_date - today).days)
+        return (days_diff, appt["date"], appt["time"])
+    
+    filtered_appointments.sort(key=sort_key)
+    
+    return filtered_appointments
+```
 
 ### Features
 - Supports dynamic filters (`date`, `status`, `doctorId`, `search`) for tailored results
@@ -46,6 +71,17 @@ mutation {
     status
   }
 }
+```
+```python funtion for this
+
+@app.patch("/appointments/status")
+def update_appointment_status(update: AppointmentStatusUpdate):
+    for appointment in data:
+        if appointment["id"] == update.appointment_id:
+            appointment["status"] = update.new_status
+            return {"message": "Status updated successfully", "appointment": appointment}
+    
+    raise HTTPException(status_code=404, detail="Appointment not found")
 ```
 
 **Real-time Benefits:** This mutation triggers updates pushed by AppSync to all subscribed clients (e.g., doctors), enabling real-time visibility of:
