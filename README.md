@@ -35,7 +35,7 @@ query getAppointments($date: String, $status: String, $doctorId: ID, $search: St
 - Single backend endpoint serves multiple frontend roles (admin, doctor, patient)
 - Simplifies maintenance through unified API
 
-## Usage of GraphQL and AppSync
+## Updation Of Appointment Status
 The backend uses GraphQL through AWS AppSync for real-time data synchronization.
 
 ### Example Mutation
