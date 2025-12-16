@@ -61,7 +61,7 @@ mutation {
 - **Search Functionality**: Search by patient names
 - **Status Management**: Update buttons for appointment states (e.g., "Schedule" → "Complete")
 - **Conflict Prevention**: Availability checker prevents booking conflicts during scheduling
-##extra feature - availability checker
+
 ![Production Flow Architecture](https://github.com/shrushti405/emr_app/blob/main/Screenshot%202025-12-16%20164634.png)
 ## live link to test features :- https://shrushti405.github.io/EmrApp/<img width="368" height="23" alt="image" src="https://github.com/user-attachments/assets/df76223a-708e-4eb2-9d9a-8e0a1658e14b" />
 
