@@ -62,7 +62,7 @@ mutation {
 - **Status Management**: Update buttons for appointment states (e.g., "Schedule" → "Complete")
 - **Conflict Prevention**: Availability checker prevents booking conflicts during scheduling
 
-## live link to test features :- https://shrushti405.github.io/EmrApp/<img width="368" height="23" alt="image" src="https://github.com/user-attachments/assets/3aadf162-b00a-4700-81e0-8f78d6d6b7c1" />
+## live link to test features :- <img width="368" height="23" alt="image" src="https://github.com/user-attachments/assets/3aadf162-b00a-4700-81e0-8f78d6d6b7c1" />
 
 
 
